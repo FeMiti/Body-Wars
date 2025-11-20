@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float turningSpeed = 2f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private Animator animador;
 
     private float verticalVelocity;
     private float speed;
@@ -28,6 +29,13 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+    }
+
+    public void TeleportPlayer(Vector3 localTeleportado)
+    {
+        controller.enabled=false;
+        transform.position=localTeleportado;
+        controller.enabled=true;
     }
 
     // Update is called once per frame
@@ -48,13 +56,40 @@ public class PlayerController : MonoBehaviour
         Vector3 move = new Vector3(turnInput, 0, moveInput);
         move = transform.TransformDirection(move);
 
+        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            animador.SetBool("isWalking",true);
+            if (Input.GetKey(KeyCode.W))
+            {
+                animador.SetInteger("direction",0);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                animador.SetInteger("direction",1);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                animador.SetInteger("direction",2);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                animador.SetInteger("direction",3);
+            }
+        }
+        else
+        {
+            animador.SetBool("isWalking",false);
+        }
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speed = Mathf.Lerp(speed, sprintSpeed, sprintTransitionSpeed * Time.deltaTime);
+            animador.SetBool("isRunning",true);
         }
         else
         {
             speed = Mathf.Lerp(speed, walkSpeed, sprintTransitionSpeed * Time.deltaTime);
+            animador.SetBool("isRunning",false);
         }
 
         move.y = 0;
