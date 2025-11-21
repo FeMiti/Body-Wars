@@ -11,7 +11,7 @@ public class TriggerAcidos : MonoBehaviour
 
     void OnTriggerEnter()
     {
-        controladorPlayer.TeleportPlayer(new Vector3(10,4,10));
+        controladorPlayer.TeleportPlayer(new Vector3(15,4,17));
         vidaPlayer.TakeDamage(acidDamage);
     }
 }
