@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98038000bc8f95a44acf16dbfb0a3a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  podeAtirar: 0
   vidaBoss: {fileID: 1115517621}
   animador: {fileID: 1680658484}
 --- !u!135 &164993817
@@ -1726,6 +1727,7 @@ GameObject:
   - component: {fileID: 1115517618}
   - component: {fileID: 1115517617}
   - component: {fileID: 1115517621}
+  - component: {fileID: 1115517622}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -1836,6 +1838,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossMaxHealth: 100
   bossCurrentHealth: 0
+--- !u!114 &1115517622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115517616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e116f1b5b3f6545849d46fe98a3324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  torretaH: {fileID: 1941347162}
+  torretaC: {fileID: 2014791715}
+  torretaW: {fileID: 164993816}
+  vidaPlayer: {fileID: 999696207}
+  vidaBoss: {fileID: 1115517621}
+  localizacao: {fileID: 999696208}
 --- !u!1 &1150139081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 7977e423937da9b48aac1866c67bb5be, type: 3}
@@ -3376,6 +3396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98038000bc8f95a44acf16dbfb0a3a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  podeAtirar: 0
   vidaBoss: {fileID: 1115517621}
   animador: {fileID: 1680658484}
 --- !u!135 &1941347163
@@ -3689,6 +3710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98038000bc8f95a44acf16dbfb0a3a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  podeAtirar: 0
   vidaBoss: {fileID: 1115517621}
   animador: {fileID: 1680658484}
 --- !u!135 &2014791716

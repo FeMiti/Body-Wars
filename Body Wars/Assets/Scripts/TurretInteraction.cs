@@ -5,6 +5,7 @@ public class TurretInteraction : MonoBehaviour
 
     [Header("Propriedades Torretas")]
     private bool playerNearTurret=false;
+    public bool podeAtirar=false;
 
     [SerializeField] private BossHealth vidaBoss;
     [SerializeField] private Animator animador;
@@ -13,7 +14,14 @@ public class TurretInteraction : MonoBehaviour
     {
         if(playerNearTurret && Input.GetKeyDown(KeyCode.E))
         {
-            FireTurret();
+            if (podeAtirar)
+            {
+                FireTurret();
+            }
+            else
+            {
+                Debug.Log("Nao pode atirar :(");
+            }
         }
     }
 
@@ -32,6 +40,7 @@ public class TurretInteraction : MonoBehaviour
 
         animador.SetTrigger("interaction");
         Debug.Log("BUM!!!");
-        vidaBoss.BossTakeDamage(10);
+        vidaBoss.BossTakeDamage(20);
+        podeAtirar=false;
     }
 }
