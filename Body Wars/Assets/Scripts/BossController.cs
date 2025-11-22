@@ -9,6 +9,7 @@ public class BossController : MonoBehaviour
     private float attackDelay=4f;
     private float timeBetweenAttacks=1.5f;
     private float turretWindow=10f;
+    private float timeAfterShot=1.5f;
 
     [SerializeField] private TurretInteraction torretaH;
     [SerializeField] private TurretInteraction torretaC;
@@ -16,7 +17,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private PlayerHealth vidaPlayer;
     [SerializeField] private BossHealth vidaBoss;
     [SerializeField] private PlayerLocalizer localizacao;
-
+    [SerializeField] private Animator animador;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -65,6 +66,7 @@ public class BossController : MonoBehaviour
     {
         int frutaAntes=localizacao.frutaPlayer;
         Debug.Log("Boss atacando a fruta " + frutaAntes);
+        animador.SetTrigger("attacksSolo");
         
         yield return new WaitForSeconds(attackDelay);
         
@@ -92,6 +94,7 @@ public class BossController : MonoBehaviour
             frutaAntes2=0;
         }
         Debug.Log("Boss atacando frutas " + frutaAntes1 + " e " + frutaAntes2);
+        animador.SetTrigger("attacksArea");
 
         yield return new WaitForSeconds(attackDelay);
 
@@ -112,6 +115,7 @@ public class BossController : MonoBehaviour
         torretaH.podeAtirar=true;
         torretaC.podeAtirar=true;
         torretaW.podeAtirar=true;
+        animador.SetBool("isStunned",true);
         float timer=0;
 
         while (timer < turretWindow)
@@ -128,7 +132,9 @@ public class BossController : MonoBehaviour
         torretaH.podeAtirar=false;
         torretaC.podeAtirar=false;
         torretaW.podeAtirar=false;
+        animador.SetBool("isStunned",false);
+        yield return new WaitForSeconds(timeAfterShot);
 
-        Debug.Log(timer + " segundos se passaram");
+
     }
 }
