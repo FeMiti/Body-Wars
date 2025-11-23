@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using System;
 
 public class BossController : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class BossController : MonoBehaviour
     private float timeBetweenAttacks=1.5f;
     private float turretWindow=10f;
     private float timeAfterShot=1.5f;
+    private float emergeDuration=3f;
 
     [SerializeField] private TurretInteraction torretaH;
     [SerializeField] private TurretInteraction torretaC;
@@ -18,6 +21,10 @@ public class BossController : MonoBehaviour
     [SerializeField] private BossHealth vidaBoss;
     [SerializeField] private PlayerLocalizer localizacao;
     [SerializeField] private Animator animador;
+    [SerializeField] private Transform[] plataformaPositions;
+    [SerializeField] private GameObject pedraPrefab;
+    [SerializeField] private Transform emergeStartPoint;
+    [SerializeField] private Transform emergeEndPoint;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -30,7 +37,7 @@ public class BossController : MonoBehaviour
 
         while (vidaBoss.bossCurrentHealth>0)
         {
-            int numberOfAttacks = Random.Range(3,6);
+            int numberOfAttacks = UnityEngine.Random.Range(3,6);
 
             for(int i=0; i<numberOfAttacks; i++)
             {
@@ -45,12 +52,32 @@ public class BossController : MonoBehaviour
     IEnumerator Emerge()
     {
         Debug.Log("Boss Emergindo");
-        yield return new WaitForSeconds(3f);
+        
+        float elapsedTime=0f;
+
+        Vector3 startPos = emergeStartPoint.position;
+        Vector3 endPos = emergeEndPoint.position;
+
+        transform.position=startPos;
+
+        while(elapsedTime < emergeDuration)
+        {
+            elapsedTime+=Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime/emergeDuration);
+
+            float smoothT = Mathf.SmoothStep(0,1,t);
+
+            transform.position = Vector3.Lerp(startPos, endPos, smoothT);
+
+            yield return null;
+        }
+
+        transform.position = endPos;
     }
 
     IEnumerator PerformRandomAttack()
     {
-        int roll = Random.Range(1,11);
+        int roll = UnityEngine.Random.Range(1,11);
 
         if (roll <= 7)
         {
@@ -68,7 +95,11 @@ public class BossController : MonoBehaviour
         Debug.Log("Boss atacando a fruta " + frutaAntes);
         animador.SetTrigger("attacksSolo");
         
-        yield return new WaitForSeconds(attackDelay);
+        bool caiu=false;
+
+        SpawnStone(frutaAntes,()=>caiu=true);
+
+        yield return new WaitUntil(()=>caiu);
         
         int frutaDepois=localizacao.frutaPlayer;
 
@@ -83,20 +114,19 @@ public class BossController : MonoBehaviour
     IEnumerator AttackLaterais()
     {
         int frutaAntes=localizacao.frutaPlayer;
-        int frutaAntes1=frutaAntes-1;
-        if (frutaAntes1 == -1)
-        {
-            frutaAntes1=7;
-        }
-        int frutaAntes2=frutaAntes+1;
-        if (frutaAntes2 == 8)
-        {
-            frutaAntes2=0;
-        }
+        int frutaAntes1 = (frutaAntes-1+8)%8;
+        int frutaAntes2 = (frutaAntes+1)%8;
+
         Debug.Log("Boss atacando frutas " + frutaAntes1 + " e " + frutaAntes2);
         animador.SetTrigger("attacksArea");
 
-        yield return new WaitForSeconds(attackDelay);
+        bool caiu1 = false;
+        bool caiu2 = false;
+
+        SpawnStone(frutaAntes1, ()=>caiu1=true);
+        SpawnStone(frutaAntes2, ()=>caiu2=true);
+
+        yield return new WaitUntil(()=> caiu1 && caiu2);
 
         int frutaDepois=localizacao.frutaPlayer;
 
@@ -106,6 +136,23 @@ public class BossController : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    IEnumerator SpawnAndWaitStone(int frutaIndex)
+    {
+        bool caiu = false;
+        SpawnStone(frutaIndex, () => caiu = true);
+        yield return new WaitUntil(()=>caiu);
+    }
+
+    private void SpawnStone(int frutaIndex, System.Action callback)
+    {
+        Vector3 pos = plataformaPositions[frutaIndex].position + Vector3.up * 20f;
+
+        GameObject pedra = Instantiate(pedraPrefab, pos, Quaternion.identity);
+
+        var fall = pedra.GetComponent<StoneFallController>();
+        fall.onFallEnd = callback;
     }
 
     IEnumerator TurretPhase()

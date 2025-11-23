@@ -18,12 +18,15 @@ public class BossHealth : MonoBehaviour
     public void BossTakeDamage(float bossDamageTaken)
     {
         bossCurrentHealth -= bossDamageTaken;
-        animador.SetTrigger("bossHit");
 
         if(bossCurrentHealth <= 0)
         {
             bossCurrentHealth=0;
             Die();
+        }
+        else
+        {
+            animador.SetTrigger("bossHit");
         }
     }
 
