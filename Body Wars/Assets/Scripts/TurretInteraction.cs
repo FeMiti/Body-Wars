@@ -9,6 +9,7 @@ public class TurretInteraction : MonoBehaviour
 
     [SerializeField] private BossHealth vidaBoss;
     [SerializeField] private Animator animador;
+    [SerializeField] private ParticleSystem muzzle;
     // Update is called once per frame
     void Update()
     {
@@ -39,7 +40,8 @@ public class TurretInteraction : MonoBehaviour
     {
 
         animador.SetTrigger("interaction");
-        Debug.Log("BUM!!!");
+        if(muzzle!=null)
+            muzzle.Play();
         vidaBoss.BossTakeDamage(20);
         podeAtirar=false;
     }

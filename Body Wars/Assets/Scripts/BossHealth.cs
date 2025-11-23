@@ -8,8 +8,10 @@ public class BossHealth : MonoBehaviour
     public float bossMaxHealth=100;
     public float bossCurrentHealth;
 
-    [SerializeField] Animator animador;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private Animator animador;
+    [SerializeField] private ParticleSystem cabum;
+    [SerializeField] private Transform sumiu;
+    //Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         bossCurrentHealth=bossMaxHealth;
@@ -33,6 +35,18 @@ public class BossHealth : MonoBehaviour
     private void Die()
     {
         animador.SetTrigger("bossDies");
-        Debug.Log("Matou o monstro uhul!!!");
+        float timer=0f;
+        float deadDuration=10f;
+
+        while (timer < deadDuration)
+        {
+            timer+=Time.deltaTime;
+        }
+
+        Vector3 someDaqui=sumiu.position;
+        transform.position=someDaqui;
+
+        cabum.Play();
+
     }
 }
