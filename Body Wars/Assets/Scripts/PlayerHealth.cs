@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour
     public float playerCurrentHealth;
 
     [SerializeField] private Animator animador;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] clips;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -19,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     {
         playerCurrentHealth -= damageTaken;
         animador.SetTrigger("receiveHit");
+        PlayClip(0);
 
         if(playerCurrentHealth <= 0)
         {
@@ -31,5 +34,10 @@ public class PlayerHealth : MonoBehaviour
     {
         animador.SetTrigger("dies");
         Debug.Log("Morreu, seu bunda.");
+    }
+
+    private void PlayClip(int clip)
+    {
+        source.PlayOneShot(clips[clip]);
     }
 }

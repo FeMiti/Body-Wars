@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private Animator animador;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] clips;
 
     private float verticalVelocity;
     private float speed;
@@ -122,6 +124,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
+                PlayClip(0);
                 verticalVelocity = Mathf.Sqrt(jumpHeight * gravity * 2);
             }
         }
@@ -136,5 +139,10 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
+    }
+
+    private void PlayClip(int clip)
+    {
+        source.PlayOneShot(clips[clip]);
     }
 }

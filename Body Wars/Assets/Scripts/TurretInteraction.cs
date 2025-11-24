@@ -10,6 +10,8 @@ public class TurretInteraction : MonoBehaviour
     [SerializeField] private BossHealth vidaBoss;
     [SerializeField] private Animator animador;
     [SerializeField] private ParticleSystem muzzle;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] clips;
     // Update is called once per frame
     void Update()
     {
@@ -21,7 +23,7 @@ public class TurretInteraction : MonoBehaviour
             }
             else
             {
-                Debug.Log("Nao pode atirar :(");
+                PlayClip(1);
             }
         }
     }
@@ -42,7 +44,13 @@ public class TurretInteraction : MonoBehaviour
         animador.SetTrigger("interaction");
         if(muzzle!=null)
             muzzle.Play();
+        PlayClip(0);
         vidaBoss.BossTakeDamage(20);
         podeAtirar=false;
+    }
+
+    private void PlayClip(int clip)
+    {
+        source.PlayOneShot(clips[clip]);
     }
 }

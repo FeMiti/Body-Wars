@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BossHealth : MonoBehaviour
@@ -11,6 +12,8 @@ public class BossHealth : MonoBehaviour
     [SerializeField] private Animator animador;
     [SerializeField] private ParticleSystem cabum;
     [SerializeField] private Transform sumiu;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] clips;
     //Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -20,6 +23,7 @@ public class BossHealth : MonoBehaviour
     public void BossTakeDamage(float bossDamageTaken)
     {
         bossCurrentHealth -= bossDamageTaken;
+        PlayClip(0);
 
         if(bossCurrentHealth <= 0)
         {
@@ -32,21 +36,28 @@ public class BossHealth : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
+    {
+        StartCoroutine(DieRoutine());
+    }
+
+    IEnumerator DieRoutine()
     {
         animador.SetTrigger("bossDies");
-        float timer=0f;
-        float deadDuration=10f;
 
-        while (timer < deadDuration)
-        {
-            timer+=Time.deltaTime;
-        }
+        yield return new WaitForSeconds(3f);
 
-        Vector3 someDaqui=sumiu.position;
-        transform.position=someDaqui;
+        Vector3 someDaqui = sumiu.position;
+        transform.position = someDaqui;
 
+        PlayClip(1);
         cabum.Play();
+        yield return new WaitForSeconds(3f);
+        cabum.Stop();
+    }
 
+    private void PlayClip(int clip)
+    {
+        source.PlayOneShot(clips[clip]);
     }
 }

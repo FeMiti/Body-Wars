@@ -12,7 +12,7 @@ public class BossController : MonoBehaviour
     private float timeBetweenAttacks=1.5f;
     private float turretWindow=10f;
     private float timeAfterShot=1.5f;
-    private float emergeDuration=3f;
+    private float emergeDuration=6f;
 
     [SerializeField] private TurretInteraction torretaH;
     [SerializeField] private TurretInteraction torretaC;
@@ -25,6 +25,8 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject pedraPrefab;
     [SerializeField] private Transform emergeStartPoint;
     [SerializeField] private Transform emergeEndPoint;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] clips;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -51,14 +53,13 @@ public class BossController : MonoBehaviour
 
     IEnumerator Emerge()
     {
-        Debug.Log("Boss Emergindo");
-        
         float elapsedTime=0f;
 
         Vector3 startPos = emergeStartPoint.position;
         Vector3 endPos = emergeEndPoint.position;
 
         transform.position=startPos;
+        PlayClip(0);
 
         while(elapsedTime < emergeDuration)
         {
@@ -92,8 +93,8 @@ public class BossController : MonoBehaviour
     IEnumerator AttackCentro()
     {
         int frutaAntes=localizacao.frutaPlayer;
-        Debug.Log("Boss atacando a fruta " + frutaAntes);
         animador.SetTrigger("attacksSolo");
+        PlayClip(1);
         
         bool caiu=false;
 
@@ -117,8 +118,8 @@ public class BossController : MonoBehaviour
         int frutaAntes1 = (frutaAntes-1+8)%8;
         int frutaAntes2 = (frutaAntes+1)%8;
 
-        Debug.Log("Boss atacando frutas " + frutaAntes1 + " e " + frutaAntes2);
         animador.SetTrigger("attacksArea");
+        PlayClip(2);
 
         bool caiu1 = false;
         bool caiu2 = false;
@@ -183,5 +184,10 @@ public class BossController : MonoBehaviour
         yield return new WaitForSeconds(timeAfterShot);
 
 
+    }
+
+    private void PlayClip(int clip)
+    {
+        source.PlayOneShot(clips[clip]);
     }
 }
