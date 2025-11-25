@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animador;
     [SerializeField] private AudioSource source;
     [SerializeField] private AudioClip[] clips;
+    [SerializeField] private PauseScript pause;
 
     private float verticalVelocity;
     private float speed;
@@ -43,6 +44,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if(pause.isPaused)
+            return;
         InputManagement();
         Movement();
     }
