@@ -14,6 +14,7 @@ public class BossHealth : MonoBehaviour
     [SerializeField] private Transform sumiu;
     [SerializeField] private AudioSource source;
     [SerializeField] private AudioClip[] clips;
+    [SerializeField] private MenuVictory ganhou;
     //Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -47,13 +48,17 @@ public class BossHealth : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
+        PlayClip(1);
+        yield return new WaitForSeconds(0.55f);
         Vector3 someDaqui = sumiu.position;
         transform.position = someDaqui;
 
-        PlayClip(1);
         cabum.Play();
         yield return new WaitForSeconds(3f);
         cabum.Stop();
+        yield return new WaitForSeconds(2f);
+
+        ganhou.Win();
     }
 
     private void PlayClip(int clip)

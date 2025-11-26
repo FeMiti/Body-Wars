@@ -8,10 +8,11 @@ public class PauseScript : MonoBehaviour
     [SerializeField] GameObject ui;
     [SerializeField] GameObject pauseMenu;
     [SerializeField] PlayerHealth morreu;
+    [SerializeField] BossHealth ganhou;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused && morreu.playerCurrentHealth>0)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused && morreu.playerCurrentHealth>0 && ganhou.bossCurrentHealth>0)
         {
             PauseGame();
         }
