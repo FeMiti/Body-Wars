@@ -29,6 +29,8 @@ public class PauseScript : MonoBehaviour
         ui.SetActive(false);
         pauseMenu.SetActive(true);
         AudioListener.pause = true;
+        Cursor.visible=true;
+        Cursor.lockState=CursorLockMode.None;
         Time.timeScale=0f;
     }
 
@@ -38,6 +40,8 @@ public class PauseScript : MonoBehaviour
         pauseMenu.SetActive(false);
         ui.SetActive(true);
         AudioListener.pause = false;
+        Cursor.visible=false;
+        Cursor.lockState=CursorLockMode.Locked;
         Time.timeScale=1f;
     }
 
@@ -48,6 +52,8 @@ public class PauseScript : MonoBehaviour
 
     public void BackToMenu()
     {
-        SceneManager.LoadSceneAsync(0);
+        Cursor.visible=true;
+        Cursor.lockState=CursorLockMode.None;
+        SceneManager.LoadSceneAsync(4);
     }
 }

@@ -9,8 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: afd14251ecf1cd54e92235d02fada7d3
   - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: a2b8676a59437754e9c270acde90d89a
+  - enabled: 1
     path: Assets/Scenes/Estomago.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/GoodEnd.unity
+    guid: b999b18c1eff5944299fef6e48fdc2d2
+  - enabled: 1
+    path: Assets/Scenes/BadEnd.unity
+    guid: 3a7c162e0be1b0d468e96c8c6da4ad96
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

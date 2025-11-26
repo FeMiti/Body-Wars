@@ -21,6 +21,8 @@ public class MenuDeath : MonoBehaviour
         ui.SetActive(false);
         deathMenu.SetActive(true);
         AudioListener.pause = true;
+        Cursor.visible=true;
+        Cursor.lockState=CursorLockMode.None;
         Time.timeScale = 0f;
     }
 
@@ -30,7 +32,9 @@ public class MenuDeath : MonoBehaviour
         deathMenu.SetActive(false);
         AudioListener.pause = false;
         Time.timeScale=1f;
-        SceneManager.LoadSceneAsync(1);
+        Cursor.visible=false;
+        Cursor.lockState=CursorLockMode.Locked;
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void GiveUp()
@@ -39,6 +43,8 @@ public class MenuDeath : MonoBehaviour
         deathMenu.SetActive(false);
         AudioListener.pause = false;
         Time.timeScale=1f;
-        SceneManager.LoadSceneAsync(0);
+        Cursor.visible=true;
+        Cursor.lockState=CursorLockMode.None;
+        SceneManager.LoadSceneAsync(4);
     }
 }

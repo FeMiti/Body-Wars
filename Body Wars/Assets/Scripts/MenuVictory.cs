@@ -11,6 +11,8 @@ public class MenuVictory : MonoBehaviour
         ui.SetActive(false);
         victoryMenu.SetActive(true);
         AudioListener.pause = true;
+        Cursor.visible=true;
+        Cursor.lockState=CursorLockMode.None;
         Time.timeScale = 0f;
     }
 
@@ -20,7 +22,9 @@ public class MenuVictory : MonoBehaviour
         victoryMenu.SetActive(false);
         AudioListener.pause = false;
         Time.timeScale=1f;
-        SceneManager.LoadSceneAsync(1);
+        Cursor.visible=false;
+        Cursor.lockState=CursorLockMode.Locked;
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void Continue()
